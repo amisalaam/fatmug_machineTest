@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #PROJECT APPS
-    'vendorApp'
+    'vendorApp',
+    'purchaseOrder',
 ]
 
 MIDDLEWARE = [
