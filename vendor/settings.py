@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
     #PROJECT APPS
     'vendorApp',
-    'purchaseOrder',
+   
 ]
 
 MIDDLEWARE = [

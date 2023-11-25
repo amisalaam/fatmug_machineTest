@@ -1,7 +1,12 @@
 from django.urls import path
-from .views import VendorCreateView,VenodrDetailsView
+from .views import *
 
 urlpatterns = [
-    path('api/vendors/', VendorCreateView.as_view(), name='vendor-create'),
-    path('api/vendors/<int:vendor_id>/', VenodrDetailsView.as_view(), name='vendor-detail'),
+    path('vendors/', VendorCreateView.as_view(), name='vendor-create'),
+    path('vendors/<int:vendor_id>/', VenodrDetailsView.as_view(), name='vendor-detail'),
+
+    path('purchase_order/', PoCreateView.as_view(), name='order-create'),
+    path('purchase_order/<int:po_id>/', PurchaseOrderDetails.as_view(), name='order-detail'),
+
+
 ]

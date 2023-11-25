@@ -29,3 +29,36 @@ class Vendor(models.Model):
     def __str__(self):
         return self.name
 
+
+
+class PurchaseOrder(models.Model):
+    po_number = models.CharField(max_length=50, unique=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    delivery_date = models.DateTimeField()
+    items = models.JSONField()
+    quantity = models.IntegerField()
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('canceled', 'Canceled'),
+    ]
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES,default= 'pending')
+    quality_rating = models.FloatField(null=True, blank=True)
+    issue_date = models.DateTimeField(auto_now_add=True)
+    acknowledgment_date = models.DateTimeField(null=True, blank=True)
+
+
+    #CREATING UNIQUE PO NUMBER AUTOMATICALLY TO MAKE USER FRIENDLY
+    def generate_unique_po_number(self):
+        random_part = ''.join(random.choices(string.digits, k=5)) 
+        return f'ORDER{random_part}'
+    
+    def save(self, *args, **kwargs):
+        if not self.po_number:
+            self.po_number = self.generate_unique_po_number()
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"PO {self.po_number} - {self.vendor.name}"
