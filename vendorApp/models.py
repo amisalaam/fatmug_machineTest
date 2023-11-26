@@ -28,8 +28,7 @@ class Vendor(models.Model):
     
     def __str__(self):
         return self.name
-
-
+    
 
 class PurchaseOrder(models.Model):
     po_number = models.CharField(max_length=50, unique=True)
@@ -48,7 +47,6 @@ class PurchaseOrder(models.Model):
     issue_date = models.DateTimeField(auto_now_add=True)
     acknowledgment_date = models.DateTimeField(null=True, blank=True)
 
-
     #CREATING UNIQUE PO NUMBER AUTOMATICALLY TO MAKE USER FRIENDLY
     def generate_unique_po_number(self):
         random_part = ''.join(random.choices(string.digits, k=5)) 
@@ -62,3 +60,19 @@ class PurchaseOrder(models.Model):
 
     def __str__(self):
         return f"PO {self.po_number} - {self.vendor.name}"
+    
+    
+class HistoricalPerfomance(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    on_time_delivery_rate = models.FloatField()
+    quality_rating_avg = models.FloatField()
+    average_response_time = models.FloatField()
+    fullfillment_rate = models.FloatField()
+
+    def __str__(self):
+        return f"History {self.vendor.name}"
+    
+    
+
+
