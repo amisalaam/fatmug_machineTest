@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from .models import Vendor,PurchaseOrder
 
 
@@ -118,3 +119,15 @@ class PurchaseOrderDetails(APIView):
         
         purchase_order.delete()
         return Response({"success": "purchase order deleted successfully"}, status=status.HTTP_200_OK)
+
+
+class PerfomanceMetricsAPIView(APIView):
+    def get (self,request,vendor_id):
+        vendor = get_object_or_404(Vendor,pk=vendor_id)
+        historical_perfomance,created = HistoricalPerformance.objects.get_or_create(vendor=vendor)
+
+        if created or not historical_perfomance:
+            historical_perfomance.calculate_and_save_metrics()
+
+        serializer = PerfomanceMetricsSerializer(historical_perfomance)
+        return Response(serializer.data , status=status.HTTP_200_OK)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vendor,PurchaseOrder
+from .models import Vendor,PurchaseOrder,HistoricalPerformance
 
 
 class VendorCreateSerialzers(serializers.ModelSerializer):
@@ -25,3 +25,8 @@ class AllPurachaseOrderSerilizer(serializers.ModelSerializer):
         model = PurchaseOrder
         exclude = ['po_number']
 
+
+class PerfomanceMetricsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HistoricalPerformance
+        fields = '__all__'
